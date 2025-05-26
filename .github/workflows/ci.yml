@@ -21,6 +21,14 @@ jobs:
     - name: Check Python version
       run: python --version
 
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools
+        pip install pytest pytest-cov
+
+    - name: Check pytest installation
+      run: pytest --version
+
     - name: List root folder contents
       run: ls -la
 
