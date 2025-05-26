@@ -25,6 +25,5 @@ jobs:
           pip install -e .[dev]
 
       - name: Run tests
-        run: |
-          pytest --cov=my_package tests/
+        run: pytest --cov=my_package /Users/sarapaisana/assignments/life_expectancy/tests
 
