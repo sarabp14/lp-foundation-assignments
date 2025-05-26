@@ -19,17 +19,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Upgrade pip and install Poetry
+      - name: Upgrade pip and install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install poetry
-
-      - name: Install dependencies
-        run: poetry install
-
-      - name: Install package
-        run: poetry run pip install .
+          pip install pytest pylint
 
       - name: Run tests with coverage
         run: |
-          poetry run pytest --cov=life_expectancy --cov-fail-under=0 life_expectancy/tests
+          pytest --cov=life_expectancy --cov-fail-under=0 life_expectancy/tests
+
+      - name: Run pylint
+        run: |
+          pylint life_expectancy/**/*.py
