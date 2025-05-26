@@ -30,4 +30,4 @@ jobs:
         run: ls -R
 
       - name: Run tests
-        run: pytest --cov=my_package tests/
+        run: pytest --cov=my_package life_expectancy/tests/
