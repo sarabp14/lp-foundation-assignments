@@ -1,3 +1,10 @@
+# lp-foundation-assignments
+
+![CI](https://github.com/sarabp14/lp-foundation-assignments/actions/workflows/ci.yml/badge.svg)
+
+Projeto para exercícios do curso de Python...
+
+
 # Foundations Learning Path Assignments
 
 ## Introduction
@@ -41,3 +48,4 @@ Open the `README.md` file inside each assignment and follow the instructions.
 > Note: Remember that all commands inside the Readme files assume you are in the root of the project.
 
 You can now start working on the [setup assignment](./assignment_0/README.md). Good luck! 🚀
+

@@ -1,9 +1,11 @@
 import pandas as pd
+import pathlib
 
 def clean_data(region):
     """Carregar o dataset e limpar os dados"""
-    df = pd.read_csv(
-    "/Users/sarapaisana/assignments/life_expectancy/data/eu_life_expectancy_raw.tsv", sep="\t")
+    path = pathlib.Path(__file__).parent / "data" / "eu_life_expectancy_raw.tsv"
+    df = pd.read_csv(path, sep="\t")
+    
     #Separar a primeira coluna em 4 colunas novas
     df[['unit', 'sex', 'age', 'region']] = df['unit,sex,age,geo\\time'].str.split(',', expand=True)
 
