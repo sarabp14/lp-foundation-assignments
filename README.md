@@ -40,5 +40,5 @@ Open the `README.md` file inside each assignment and follow the instructions.
 
 > Note: Remember that all commands inside the Readme files assume you are in the root of the project.
 
-You can now start working on the [setup assignment](./assignment_0/README.md). Good luck! 🚀
 
+You can now start working on the [setup assignment](./assignment_0/README.md). Good luck! 🚀
