@@ -1,7 +1,6 @@
 # lp-foundation-assignments
 
-![CI](https://github.com/sarabp14/lp-foundation-assignments/actions/workflows/ci.yml/badge.svg)
-
+![CI](https://github.com/sarabp14/lp-foundation-assignments/actions/workflows/ci.yml/badge.svg?branch=ci)
 
 
 Projeto para exercícios do curso de Python...
