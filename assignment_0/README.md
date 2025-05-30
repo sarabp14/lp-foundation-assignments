@@ -50,4 +50,4 @@ If everything is working, you should do your first commit and push it to GitHub.
 
 To push your code to GitHub, you can either do this [directly from VSCode](https://code.visualstudio.com/docs/sourcecontrol/intro-to-git#_publish-local-repository-to-github) or you can create the repo on GitHub and then follow their instruction on how to push an existing repository.
 
-If your repository is private, don't forget to add your mentor and pod colleages as a collaborators.
+If your repository is private, don't forget to add your mentor and pod colleagues as a collaborators.
