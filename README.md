@@ -2,6 +2,8 @@
 
 ![CI](https://github.com/sarabp14/lp-foundation-assignments/actions/workflows/ci.yml/badge.svg)
 
+
+
 Projeto para exercícios do curso de Python...
 
 
