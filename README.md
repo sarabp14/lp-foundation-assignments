@@ -1,5 +1,6 @@
 # lp-foundation-assignments
 
+![pytest](https://github.com/sarabp14/lp-foundation-assignments/actions/workflows/pytest.yml/badge.svg)
 
 
 Projeto para exercícios do curso de Python...
