@@ -1,5 +1,7 @@
-import pandas as pd
 import pathlib
+import argparse
+import pandas as pd
+
 
 def load_data():
     """Carrega o dataset bruto a partir do ficheiro TSV"""
@@ -42,9 +44,8 @@ def save_data(df):
     output_path = pathlib.Path(__file__).parent / "data" / "pt_life_expectancy.csv"
     df.to_csv(output_path, index=False)
 
-
 def main():
-    import argparse
+    """Função principal para carregar, limpar e guardar os dados"""
 
     parser = argparse.ArgumentParser(description="Cleans data for life expectancy in Europe")
     parser.add_argument("--region", default="PT", help="Country code (eg: PT, ES, FR)")
