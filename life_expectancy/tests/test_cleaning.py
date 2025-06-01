@@ -1,16 +1,12 @@
 """Tests for the cleaning module"""
 import pandas as pd
 
-from life_expectancy.cleaning import clean_data
-from . import OUTPUT_DIR
-
+from life_expectancy.cleaning import load_data, clean_data
 
 def test_clean_data(pt_life_expectancy_expected):
-    """Run the `clean_data` function and compare the output to the expected output"""
-    clean_data("PT")
-    pt_life_expectancy_actual = pd.read_csv(
-        OUTPUT_DIR / "pt_life_expectancy.csv"
-    )
-    pd.testing.assert_frame_equal(
-        pt_life_expectancy_actual, pt_life_expectancy_expected
-    )
+    """Testa a função de limpeza de dados para a região PT"""
+    df_raw = load_data()
+    df_cleaned = clean_data(df_raw, region="PT")
+
+    # Compara com o DataFrame esperado
+    pd.testing.assert_frame_equal(df_cleaned.reset_index(drop=True), pt_life_expectancy_expected)
