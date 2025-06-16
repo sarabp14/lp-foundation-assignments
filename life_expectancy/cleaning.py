@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def load_data():
-    """Carrega o dataset bruto a partir do ficheiro TSV"""
+    """Carrega o dataset original a partir do ficheiro TSV"""
     path = pathlib.Path(__file__).parent / "data" / "eu_life_expectancy_raw.tsv"
     df = pd.read_csv(path, sep="\t")
     return df
