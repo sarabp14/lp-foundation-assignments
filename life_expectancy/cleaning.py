@@ -92,6 +92,7 @@ def main():
     df_raw = load_data()
     df_cleaned = clean_data(df_raw, region=args.region)
     save_data(df_cleaned)
+    return df_cleaned
 
 
 if __name__ == "__main__":  # pragma: no cover
