@@ -1,6 +1,7 @@
 import pathlib
 import argparse
 import pandas as pd
+from life_expectancy.region import Region
 
 
 def load_data() -> pd.DataFrame:
@@ -37,19 +38,18 @@ def clean_year_column(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def clean_value_column(df: pd.DataFrame) -> pd.DataFrame:
-    """ Cleans the 'value' column by removing non-numeric characters, converting it to float, and dropping rows with NaN values.
-    """
+    """Cleans the 'value' column by removing non-numeric characters, converting it to float, and dropping NaNs."""
     df['value'] = df['value'].str.replace(r'[a-zA-Z]', '', regex=True).str.strip()
     df['value'] = pd.to_numeric(df['value'], errors='coerce').astype(float)
     return df.dropna(subset=['value'])
 
 
-def filter_by_region(df: pd.DataFrame, region: str = "PT") -> pd.DataFrame:
-    """ Filters the DataFrame by region."""
-    return df[df['region'] == region]
+def filter_by_region(df: pd.DataFrame, region: Region) -> pd.DataFrame:
+    """Filters the DataFrame by a specific region."""
+    return df[df['region'] == region.value]
 
 
-def clean_data(df: pd.DataFrame, region: str = "PT") -> pd.DataFrame:
+def clean_data(df: pd.DataFrame, region: Region = Region.PT) -> pd.DataFrame:
     """
     Cleans and processes the raw life expectancy dataset.
 
@@ -62,7 +62,7 @@ def clean_data(df: pd.DataFrame, region: str = "PT") -> pd.DataFrame:
 
     Args:
         df (pd.DataFrame): Raw input DataFrame.
-        region (str, optional): Region code to filter by. Defaults to 'PT'.
+        region (Region, optional): Region to filter by. Defaults to Region.PT.
 
     Returns:
         pd.DataFrame: Cleaned and filtered DataFrame ready for analysis.
@@ -76,21 +76,27 @@ def clean_data(df: pd.DataFrame, region: str = "PT") -> pd.DataFrame:
     return df
 
 
-
 def save_data(df):
     """Saves the cleaned DataFrame to a CSV file."""
     output_path = pathlib.Path(__file__).parent / "data" / "pt_life_expectancy.csv"
     df.to_csv(output_path, index=False)
 
-def main():
+def main() -> pd.DataFrame:
     """Main function to execute the cleaning process."""
 
-    parser = argparse.ArgumentParser(description="Cleans data for life expectancy in Europe")
-    parser.add_argument("--region", default="PT", help="Country code (eg: PT, ES, FR)")
+    parser = argparse.ArgumentParser(description="Cleans life expectancy data in Europe.")
+    parser.add_argument("--region", default="PT", help="Country code (e.g. PT, ES, FR, etc.)")
     args = parser.parse_args()
 
+    try:
+        selected_region = Region(args.region)
+    except ValueError:
+        raise ValueError(
+            f"'{args.region}' is not a valid region. Please choose from: {[r.value for r in Region]}"
+        )
+
     df_raw = load_data()
-    df_cleaned = clean_data(df_raw, region=args.region)
+    df_cleaned = clean_data(df_raw, region=selected_region)
     save_data(df_cleaned)
     return df_cleaned
 
