@@ -4,10 +4,10 @@ from life_expectancy.region import Region
 def test_region_countries_excludes_aggregates():
     regions = Region.countries()
 
-    # Check que só há valores do tipo Region
+    # Checks if all regions are instances of Region
     assert all(isinstance(r, Region) for r in regions)
 
-    # Check que valores agregados não estão incluídos
+    # Checks if the excluded regions are not in the list
     excluded = {
         Region.DE_TOT,
         Region.EU27_2020,
@@ -22,5 +22,5 @@ def test_region_countries_excludes_aggregates():
     for region in excluded:
         assert region not in regions
 
-    # E.g. Portugal deve estar incluído
+    # Checks if PT is in the list of regions
     assert Region.PT in regions

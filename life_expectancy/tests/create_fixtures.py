@@ -12,6 +12,7 @@ df = pd.read_csv(input_path, sep="\t")
 # Create sample
 sample_df = df.sample(n=150, random_state=42)
 
+
 # Save raw sample fixture
 fixture_raw_path = FIXTURES_DIR / "eu_life_expectancy_raw.tsv"
 sample_df.to_csv(fixture_raw_path, sep="\t", index=False)

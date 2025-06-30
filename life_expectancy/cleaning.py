@@ -38,11 +38,13 @@ def clean_year_column(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def clean_value_column(df: pd.DataFrame) -> pd.DataFrame:
-    """Cleans the 'value' column by removing non-numeric characters, converting it to float, and dropping NaNs."""
+    """
+    Cleans the 'value' column:
+    removes non-numeric characters, converts to float and drop NaNs.
+    """
     df['value'] = df['value'].str.replace(r'[a-zA-Z]', '', regex=True).str.strip()
     df['value'] = pd.to_numeric(df['value'], errors='coerce').astype(float)
     return df.dropna(subset=['value'])
-
 
 def filter_by_region(df: pd.DataFrame, region: Region) -> pd.DataFrame:
     """Filters the DataFrame by a specific region."""
@@ -90,11 +92,10 @@ def main() -> pd.DataFrame:
 
     try:
         selected_region = Region(args.region)
-    except ValueError:
+    except ValueError as exc:
         raise ValueError(
             f"'{args.region}' is not a valid region. Please choose from: {[r.value for r in Region]}"
-        )
-
+        ) from exc
     df_raw = load_data()
     df_cleaned = clean_data(df_raw, region=selected_region)
     save_data(df_cleaned)
