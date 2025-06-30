@@ -2,6 +2,7 @@ from life_expectancy.region import Region
 
 
 def test_region_countries_excludes_aggregates():
+    """Test that the countries method of Region excludes aggregate regions."""
     regions = Region.countries()
 
     # Checks if all regions are instances of Region
