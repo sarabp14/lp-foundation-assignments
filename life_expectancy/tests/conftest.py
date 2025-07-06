@@ -35,4 +35,3 @@ def pt_life_expectancy_expected_fixture() -> pd.DataFrame:
 def eu_life_expectancy_raw_fixture() -> pd.DataFrame:
     """Fixture to load the raw life expectancy data for Europe."""
     return pd.read_csv(FIXTURES_DIR / "eu_life_expectancy_raw.tsv", sep="\t")
-    

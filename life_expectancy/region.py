@@ -2,6 +2,7 @@ from enum import Enum
 from typing import List
 
 class Region(Enum):
+    """Enum representing various regions and countries in Europe and surrounding areas."""
     AT = "AT"
     BE = "BE"
     BG = "BG"
@@ -61,6 +62,13 @@ class Region(Enum):
 
     @classmethod
     def countries(cls) -> List["Region"]:
+        """        Returns a list of regions excluding aggregates like EU, EEA, and EA.
+        """
+         # Exclude aggregate regions
+         # These are the regions that are not individual countries
+         # but rather aggregates or unions of multiple countries.
+         # They are not suitable for country-specific analysis.
+         # The excluded regions are:
         excluded = {
             cls.DE_TOT,
             cls.EU27_2020,
@@ -73,8 +81,6 @@ class Region(Enum):
             cls.EA19,
         }
         return [r for r in cls if r not in excluded]
-
-
 
 print(dir(Region))
 print(hasattr(Region, "countries"))
