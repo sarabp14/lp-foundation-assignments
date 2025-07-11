@@ -68,13 +68,6 @@ def clean_data(df: pd.DataFrame, region: Region = Region.PT) -> pd.DataFrame:
     - Reshaping the data to long format
     - Cleaning and converting 'year' and 'value' columns
     - Filtering by the specified region
-
-    Args:
-        df (pd.DataFrame): Raw input DataFrame.
-        region (Region, optional): Region to filter by. Defaults to Region.PT.
-
-    Returns:
-        pd.DataFrame: Cleaned and filtered DataFrame ready for analysis.
     """
     df = split_metadata_column(df)
     df = drop_metadata_column(df)
@@ -82,7 +75,6 @@ def clean_data(df: pd.DataFrame, region: Region = Region.PT) -> pd.DataFrame:
     df = clean_year_column(df)
     df = clean_value_column(df)
     df = filter_by_region(df, region)
-    print(df.head(10))
     return df
 
 
