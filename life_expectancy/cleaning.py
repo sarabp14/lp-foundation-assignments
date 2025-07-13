@@ -3,13 +3,22 @@ import argparse
 import pandas as pd
 import numpy as np
 from life_expectancy.region import Region
+from life_expectancy.data_loader import ZippedJSONLoader, TSVLoader
 
+def load_data(file_format: str = "tsv") -> pd.DataFrame:
+    """Loads data in different formats based on input."""
+    path_dir = pathlib.Path(__file__).parent / "data"
+    
+    if file_format == "tsv":
+        path = path_dir / "eu_life_expectancy_raw.tsv"
+        loader = TSVLoader()
+    elif file_format == "zip":
+        path = path_dir / "eurostat_life_expect.zip"
+        loader = ZippedJSONLoader()
+    else:
+        raise ValueError("Unsupported format. Use: 'tsv' or 'zip'")
+    return loader.load(str(path))
 
-def load_data() -> pd.DataFrame:
-    """Loads the oridinal data from a TSV file"""
-    path = pathlib.Path(__file__).parent / "data" / "eu_life_expectancy_raw.tsv"
-    df = pd.read_csv(path, sep="\t")
-    return df
 
 
 def split_metadata_column(df: pd.DataFrame) -> pd.DataFrame:
@@ -68,13 +77,6 @@ def clean_data(df: pd.DataFrame, region: Region = Region.PT) -> pd.DataFrame:
     - Reshaping the data to long format
     - Cleaning and converting 'year' and 'value' columns
     - Filtering by the specified region
-
-    Args:
-        df (pd.DataFrame): Raw input DataFrame.
-        region (Region, optional): Region to filter by. Defaults to Region.PT.
-
-    Returns:
-        pd.DataFrame: Cleaned and filtered DataFrame ready for analysis.
     """
     df = split_metadata_column(df)
     df = drop_metadata_column(df)
@@ -82,7 +84,6 @@ def clean_data(df: pd.DataFrame, region: Region = Region.PT) -> pd.DataFrame:
     df = clean_year_column(df)
     df = clean_value_column(df)
     df = filter_by_region(df, region)
-    print(df.head(10))
     return df
 
 
@@ -96,6 +97,7 @@ def main() -> pd.DataFrame:
 
     parser = argparse.ArgumentParser(description="Cleans life expectancy data in Europe.")
     parser.add_argument("--region", default="PT", help="Country code (e.g. PT, ES, FR, etc.)")
+    parser.add_argument("--format", default="tsv", help="Data format: tsv, csv or zip")
     args = parser.parse_args()
 
     try:
@@ -105,7 +107,7 @@ def main() -> pd.DataFrame:
             f"'{args.region}' is not a valid region."
             f"Please choose from: {[r.value for r in Region]}"
         ) from exc
-    df_raw = load_data()
+    df_raw = load_data(file_format=args.format)
     df_cleaned = clean_data(df_raw, region=selected_region)
     save_data(df_cleaned)
     return df_cleaned
@@ -113,4 +115,4 @@ def main() -> pd.DataFrame:
 
 if __name__ == "__main__":  # pragma: no cover
     main()
-     
+    

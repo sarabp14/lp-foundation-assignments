@@ -82,5 +82,3 @@ class Region(Enum):
         }
         return [r for r in cls if r not in excluded]
 
-print(dir(Region))
-print(hasattr(Region, "countries"))
