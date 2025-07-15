@@ -122,8 +122,9 @@ def main() -> None:
     df_raw = load_data(file_format)
     df_clean = clean_data(df_raw, region=region)
 
-    output_path = pathlib.Path(__file__).parent / "data" / f"cleaned_life_expectancy_{
-        region.value}.{file_format}.csv"
+    output_dir = pathlib.Path(__file__).parent / "data"
+    filename = f"cleaned_life_expectancy_{region.value}.{file_format}.csv"
+    output_path = output_dir / filename
     save_data(df_clean, output_path)
     print(f"Cleaned data saved to {output_path}")
 
