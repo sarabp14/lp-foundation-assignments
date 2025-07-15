@@ -81,4 +81,4 @@ class Region(Enum):
             cls.EA19,
         }
         return [r for r in cls if r not in excluded]
-
+    

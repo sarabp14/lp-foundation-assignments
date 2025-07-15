@@ -8,7 +8,6 @@ from life_expectancy.data_loader import ZippedJSONLoader, TSVLoader
 def load_data(file_format: str = "tsv") -> pd.DataFrame:
     """Loads data in different formats based on input."""
     path_dir = pathlib.Path(__file__).parent / "data"
-    
     if file_format == "tsv":
         path = path_dir / "eu_life_expectancy_raw.tsv"
         loader = TSVLoader()
@@ -18,7 +17,6 @@ def load_data(file_format: str = "tsv") -> pd.DataFrame:
     else:
         raise ValueError("Unsupported format. Use: 'tsv' or 'zip'")
     return loader.load(str(path))
-
 
 
 def split_metadata_column(df: pd.DataFrame) -> pd.DataFrame:
@@ -69,22 +67,39 @@ def filter_by_region(df: pd.DataFrame, region: Region) -> pd.DataFrame:
 
 def clean_data(df: pd.DataFrame, region: Region = Region.PT) -> pd.DataFrame:
     """
-    Cleans and processes the raw life expectancy dataset.
+    Cleans and processes the life expectancy dataset,for both TSV and JSON formats.
 
-    The cleaning pipeline includes:
-    - Splitting the metadata column
-    - Dropping the original metadata column
-    - Reshaping the data to long format
-    - Cleaning and converting 'year' and 'value' columns
-    - Filtering by the specified region
+    For TSV:
+    - Splits metadata column
+    - Drops metadata
+    - Reshapes to long format
+    - Cleans year and value
+    - Filters by region
+
+    For JSON:
+    - Renames columns to match expected format
+    - Filters by region
+    - Selects and renames necessary columns
     """
-    df = split_metadata_column(df)
-    df = drop_metadata_column(df)
-    df = reshape_to_long_format(df)
-    df = clean_year_column(df)
-    df = clean_value_column(df)
-    df = filter_by_region(df, region)
-    return df
+    if 'unit,sex,age,geo\\time' in df.columns:
+        # TSV format
+        df = split_metadata_column(df)
+        df = drop_metadata_column(df)
+        df = reshape_to_long_format(df)
+        df = clean_year_column(df)
+        df = clean_value_column(df)
+        df = filter_by_region(df, region)
+        return df
+
+    elif {'unit', 'sex', 'age', 'country', 'year', 'life_expectancy'}.issubset(df.columns):
+        # JSON format
+        df = df.rename(columns={"country": "region", "life_expectancy": "value"})
+        df = filter_by_region(df, region)
+        df = df[["unit", "sex", "age", "region", "year", "value"]]
+        return df
+
+    else:
+        raise ValueError("Unrecognized data format: missing expected columns.")
 
 
 def save_data(df):
@@ -97,7 +112,7 @@ def main() -> pd.DataFrame:
 
     parser = argparse.ArgumentParser(description="Cleans life expectancy data in Europe.")
     parser.add_argument("--region", default="PT", help="Country code (e.g. PT, ES, FR, etc.)")
-    parser.add_argument("--format", default="tsv", help="Data format: tsv, csv or zip")
+    parser.add_argument("--format", default="tsv", help="Data format: tsv or zip")
     args = parser.parse_args()
 
     try:
@@ -115,4 +130,3 @@ def main() -> pd.DataFrame:
 
 if __name__ == "__main__":  # pragma: no cover
     main()
-    

@@ -7,8 +7,8 @@ class DataLoaderStrategy(ABC):
     """Abstract base class for data loading strategies."""
     @abstractmethod
     def load(self, file_path: str) -> pd.DataFrame:
-        pass
-
+        """Load data from the specified file path."""
+               
 class TSVLoader(DataLoaderStrategy):
     """Loader for TSV files."""
     def load(self, file_path: str) -> pd.DataFrame:
