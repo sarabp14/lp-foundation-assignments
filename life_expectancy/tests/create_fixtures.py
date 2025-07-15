@@ -54,5 +54,6 @@ fixture_expected_zip_path = FIXTURES_DIR / "eurostat_life_expect_expected.csv"
 cleaned_zip.to_csv(fixture_expected_zip_path, index=False)
 
 print("Fixtures for TSV and ZIP formats successfully created!")
-print("TSV sample PT count:", sample_tsv[sample_tsv['unit,sex,age,geo\\time'].str.contains('PT')].shape[0])
+print("TSV sample PT count:", sample_tsv[
+    sample_tsv['unit,sex,age,geo\\time'].str.contains('PT')].shape[0])
 print("ZIP sample PT count:", sample_zip[sample_zip['country'] == 'PT'].shape[0])
