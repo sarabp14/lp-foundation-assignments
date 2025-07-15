@@ -15,8 +15,7 @@ def load_data(file_format: str = "tsv") -> pd.DataFrame:
         path = path_dir / "eurostat_life_expect.zip"
         loader = ZippedJSONLoader()
     else:
-        raise ValueError(f"Unsupported file format: {file_format}")
-    
+        raise ValueError(f"Unsupported file format: {file_format}")   
     return loader.load(str(path))
 
 
@@ -111,6 +110,7 @@ def save_data(df: pd.DataFrame, path: pathlib.Path) -> None:
 
 
 def main() -> None:
+    """Main function to clean life expectancy data."""
     parser = argparse.ArgumentParser(description="Cleans life expectancy data in Europe.")
     parser.add_argument("--region", default="PT", help="Country code (e.g. PT, ES, FR, etc.)")
     parser.add_argument("--format", default="tsv", help="Data format: tsv or zip")
@@ -122,7 +122,8 @@ def main() -> None:
     df_raw = load_data(file_format)
     df_clean = clean_data(df_raw, region=region)
 
-    output_path = pathlib.Path(__file__).parent / "data" / f"cleaned_life_expectancy_{region.value}.{file_format}.csv"
+    output_path = pathlib.Path(__file__).parent / "data" / f"cleaned_life_expectancy_{
+        region.value}.{file_format}.csv"
     save_data(df_clean, output_path)
     print(f"Cleaned data saved to {output_path}")
 
